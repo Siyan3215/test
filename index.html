@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HoHoSo外送</title>
+    <style>
+    body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    a {
+        text-decoration: none; /* 移除底線 */
+        color: inherit; /* 保持文字顏色與父元素一致 */
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: rgba(0, 162, 246, 0.8);
+        padding: 10px 20px;
+        border-bottom: 1px solid rgba(0, 162, 246, 0.8);
+        height: 60px; /* 定義導覽列高度 */   
+        width: 99%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        transition: transform 0.3s ease; /* 動畫效果 */
+    }
+
+    .navbar.hidden {
+            transform: translateY(-100%); /* 將導覽列移出螢幕 */
+    }
+
+    .navbar a {
+        text-decoration: none;               
+        margin: 0 12px;
+        padding: 5px 10px;
+        transition: color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .navbar .nav-right a:hover {
+        color: #FFF;
+        border: 1px solid #2522d4;
+        border-radius: 5px;
+    }
+
+    .navbar .nav-left {
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar .nav-right {
+        font-weight: bolder;
+        display: flex;
+        align-items: center;
+    }
+
+    .nav-logo {
+    height: 100%; /* 圖片高度與 nav 相同 */
+    object-fit: contain; /* 保持圖片比例 */
+    }
+  
+    .nav-left a {
+    display: block;
+    height: 100%; /* 確保超連結填滿圖片區域 */
+    }
+
+    .address-screen {
+        height: 500px;
+        width: 100%;
+        display: flex; /* 啟用 Flexbox */
+        flex-direction: column; /* 改為垂直排列 */
+        justify-content: center; /* 垂直置中 */
+        align-items: center; /* 水平置中 */
+        background-image: url("background.jpg"); /* 設定背景圖片 */
+        background-size: cover; /* 圖片覆蓋區域 */
+        background-position: center; /* 圖片置中 */ 
+        /*background-repeat: no-repeat;  防止圖片重複 */
+    }
+
+    .address-text-screen {
+        height: 200px;
+        width: 100%;
+        display: flex; /* 啟用 Flexbox */
+        flex-direction: column; /* 改為垂直排列 */
+        justify-content: center; /* 垂直置中 */
+        align-items: center; /* 水平置中 */
+        /*background-color: #f8f9fa;  增加背景色方便檢視 */
+    }
+
+    .address-text {
+        font-size: 18px; /* 可選：文字大小 */
+        font-weight: bold; /* 可選：加粗文字 */
+        color: #333; /* 可選：文字顏色 */ 
+        background-color: rgba(255, 255, 255, 0.8); /* 可選：增加背景色以區分文字與背景 */
+        padding: 10px; /* 可選：增加文字周圍間距 */
+        border-radius: 8px; /* 可選：圓角效果 */       
+    }
+
+    .address-box {
+        margin: 20px;
+        padding: 15px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        background-color: rgba(255, 255, 255, 0.9); 
+    }
+
+    .address-box label {
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .address-box input {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+
+    .address-box button {
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    .address-box button:hover {
+        background-color: #0056b3;
+    }
+
+    .present-sreen {      
+        height: 1000px;
+        width: 100%;
+        background-color: #0056b3;     
+        padding-top: 10px;
+        padding-bottom: 10px;       
+        box-sizing: border-box; 
+    }
+
+    footer {
+      background-color: #f8f9fa;
+      text-align: center;
+      padding: 20px;
+      border-top: 1px solid #ddd;
+    }
+
+    .F-icon {
+        height: 30px;
+        width: 30px;
+        border-radius: 15px;
+    }
+    
+
+    .D-icon {
+        height: 30px;
+        width: 30px;        
+    }
+
+    .loginBtn {
+        border-radius: 5px;
+        width: 45px;
+        height: 30px;
+        background-color: #333;
+        color: #ddd; 
+        text-align: center; 
+        line-height: 30px; 
+    } 
+
+    .registerBtn {
+        border-radius: 5px;
+        width: 45px;
+        height: 30px;
+        background-color: #ddd;
+        color: #000;
+        text-align: center; /* 文字水平置中 */
+        line-height: 30px; /* 文字垂直置中，值與高度一致 */
+    }
+
+    .carousel-container {
+        position: relative;
+        width: 100%;
+        height: 600px;   
+        background-color: #eee;         
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .carousel {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .card {
+        width: 300px;
+        height: 400px;
+        margin: 0 15px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        overflow: hidden;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        
+    }
+
+    .card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .card p {
+        margin: 15px;
+        display: none;
+        transition: opacity 0.3s ease;
+    }
+
+    .card.center {
+        transform: scale(1.2); /* 放大中間卡片 */
+        z-index: 10;
+        opacity: 1;
+    }
+
+    .card.center p {
+        display: block; /* 讓文字框只在中間卡片顯示 */
+    }
+
+    .card.left,
+    .card.right {
+        transform: scale(0.8); /* 縮小旁邊的卡片 */
+        z-index: 5;
+        opacity: 0.7;
+    }
+
+    .arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        z-index: 20;
+        font-size: 20px;
+    }
+
+    .arrow:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .arrow.left {
+        left: 50px;
+    }
+
+    .arrow.right {
+        right: 50px;
+    }
+
+    .login-modal, 
+    .register-modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 200;
+        width: 300px;
+    }
+
+    .login-modal input, .register-modal input {
+        width: 90%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .login-modal button, .register-modal button {
+        width: 90%;
+        padding: 10px;
+        margin: 10px 0px 0px 10px;
+        background-color: #0a74da;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .login-modal button:hover, .register-modal button:hover {
+        background-color: #085bbf;
+    }
+
+
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 100;
+    } 
+    
+    .present-sreen-box {
+        background-color: #fff; 
+        margin: 50px;
+        height: 900px;
+        border-radius: 8px;
+        box-sizing: border-box; 
+        padding: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .glowing-text {
+        font-size: 2.5em;
+        color: #fff;
+        text-align: center;
+        text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 15px #ff0000, 0 0 20px #ff0000;
+    }
+
+    .text-box {
+        width: 1200px;
+        font-size: 1.5em;
+        color: #333;
+        text-align: justify; 
+    }
+
+    .fade-up {
+        opacity: 0;
+        transform: translateY(50px);
+        transition: opacity 1s, transform 1s;
+    }
+
+    .fade-up.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .shaking-text {
+        display: inline-block;
+        font-size: 2em;
+        color: #cc214c;
+        animation: shakeAndZoom 0.75s infinite;
+    }
+
+    @keyframes shakeAndZoom {
+        0% {
+            transform: translate(-1px, -1px) scale(1);
+        }
+        25% {
+            transform: translate(1px, -1px) scale(1.1);
+        }
+        50% {
+            transform: translate(1px, 1px) scale(1);
+        }
+        75% {
+            transform: translate(-1px, 1px) scale(1.1);
+        }
+        100% {
+            transform: translate(-1px, -1px) scale(1);
+        }
+    }
+
+    .card-link {
+        pointer-events: none; /* 初始禁止所有連結 */
+    }
+
+
+    </style>
+</head>
+<body>
+    <!-- 導航列 -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html"><img src="icon/logo.png" alt="Logo" class="nav-logo"></a>
+        </div>
+        <div class="nav-right">
+            <a href="#" class="loginBtn" id="loginBtn">登入</a>
+            <a href="#" class="registerBtn" id="registerBtn">註冊</a>
+            <a href='#'><img src="icon/languageicon.png" alt="languageicon" class="D-icon"></a>
+            <a href='shop/shop.html'><img src="icon/carIcon.png" alt="carIcon" class="D-icon"></a>   
+        </div>
+    </nav>
+
+    <!-- 登入表單 -->
+    <div class="overlay" id="overlay"></div>
+    <div class="login-modal" id="loginModal">
+        <h2 id="loginTitle">登入</h2>
+        <input type="text" placeholder="使用者名稱" id="username">
+        <input type="password" placeholder="密碼" id="password">
+        <button onclick="submitLogin()">登入</button>
+    </div>
+
+    <!-- 註冊表單 -->
+    <div class="register-modal" id="registerModal">
+        <h2 id="registerTitle">註冊</h2>
+        <input type="text" placeholder="使用者名稱" id="registerUsername">
+        <input type="email" placeholder="電子郵件" id="registerEmail">
+        <input type="password" placeholder="密碼" id="registerPassword">
+        <button onclick="submitRegister()">註冊</button>
+    </div>
+
+    <div class="address-screen">
+        <div class="address-text-screen">
+            <div class="address-text">
+                <h3>歡迎來到HoHoSo平台</h3>
+            </div>
+            <div class="address-box">
+                <label for="address">請輸入地址：</label>
+                <input type="text" id="address" placeholder="搜尋店家地址">
+                <button type="button" id="confirmButton">確認</button>
+            </div>
+        </div>                  
+    </div>
+
+    <div class="carousel-container">
+        <button class="arrow left" id="prev">&#8592;</button>
+        <div class="carousel" id="carousel">
+            <a href="#" class="card-link">
+                <div class="card left">
+                    <img src="merchant.png" alt="Merchant 1">
+                    <p style="font-weight: bolder; font-size: larger;">業務合作</p>
+                    <p class="shaking-text">現在加入!!</p>
+                </div>
+            </a>
+            <a href="joinUs/joinus.html" class="card-link">
+                <div class="card center">
+                    <img src="chef.png" alt="Merchant 2">
+                    <p style="font-weight: bolder; font-size: larger;">商家合作</p>
+                    <p class="shaking-text">現在加入!!</p>
+                </div>
+            </a>
+            <a href="google.com" class="card-link">
+                <div class="card right">
+                    <img src="driver.png" alt="Merchant 3">
+                    <p style="font-weight: bolder; font-size: larger;">加入合作</p>
+                    <p class="shaking-text">現在加入!!</p>
+                </div>
+            </a>
+        </div>
+        <button class="arrow right" id="next">&#8594;</button>
+    </div>
+
+    <div class="present-sreen">        
+        <div class="present-sreen-box">
+            <div class="text-box">
+                <h1 class="glowing-text fade-up">HoHoSo － 全新外送平台</h1>                
+                <p class="fade-up"><strong>HoHoSo</strong> 是一個全新的外送平台，致力於為用戶提供便捷、高效的外送服務。作為一個創新的平台，HoHoSo 旨在通過先進的技術和精確的運營模式，為顧客和商家之間搭建起更快速、更可靠的橋樑。我們深知現代生活的節奏迅速，需求隨之增長，無論是餐飲外送、日用商品配送還是各類服務需求，HoHoSo 都能夠在最短的時間內為您提供滿意的解決方案。</p>
+                <p class="fade-up"><strong>平台設計簡潔直觀</strong>：HoHoSo 的平台設計簡潔直觀，用戶可以輕鬆瀏覽各種商家和商品，並根據自己的需求進行選擇。平台配備了智能配送系統，能夠根據地理位置、交通情況和商家狀況優化配送路徑，確保每一單的準時送達。我們的配送員經過專業訓練，具備高度的服務意識，並且運用高效的工作流程，使得每次配送都能保證質量和速度。</p>
+                <p class="fade-up"><strong>用戶至上與優惠活動</strong>：在HoHoSo，我們始終堅持用戶至上的理念，並不斷推陳出新，推出各類優惠活動，讓顧客在享受快捷服務的同時，也能體驗到物超所值的購物樂趣。無論是忙碌的上班族，還是時間緊迫的家庭，HoHoSo 都能成為您信賴的生活伴侶，提供您所需的每一份便捷。</p>
+                <p class="fade-up"><strong>我們的願景</strong>：我們的願景是通過 HoHoSo 平台，為更多的用戶和商家創造價值，並成為行業中的領航者。我們相信，隨著技術的不斷革新與平台的優化升級，HoHoSo 能夠在競爭激烈的市場中脫穎而出，為全球各地的用戶帶來更加優質的外送體驗。</p>
+            </div>
+        </div>
+    </div>    
+    
+
+   
+
+    <!-- 頁腳 -->
+    <footer>
+        <div class="footer-container"> 
+            <a href='https://x.com/'><img src="icon/X.png" alt="X-icon" class="F-icon"></a>
+            <a href='https://www.facebook.com/?locale=zh_TW'><img src="icon/FB.png" alt="FB-icon" class="F-icon"></a>
+            <a href='https://www.instagram.com/'><img src="icon/IG.png" alt="IG-icon" class="F-icon"></a>
+        </div>
+        <p>&copy; 2024 學習前端語言使用非商業行為</p>
+    </footer>
+    
+
+
+    <script>
+    {
+        // 顯示登入表單
+        const loginBtn = document.getElementById('loginBtn');
+        const loginModal = document.getElementById('loginModal');
+        const overlay = document.getElementById('overlay');
+
+        loginBtn.addEventListener('click', () => {
+            loginModal.style.display = 'block';
+            overlay.style.display = 'block';
+        });
+
+        // 顯示註冊表單
+        const registerBtn = document.getElementById('registerBtn');
+        const registerModal = document.getElementById('registerModal');
+
+        registerBtn.addEventListener('click', () => {
+            registerModal.style.display = 'block';
+            overlay.style.display = 'block';
+        });
+
+        // 關閉登入和註冊表單
+        overlay.addEventListener('click', () => {
+            loginModal.style.display = 'none';
+            registerModal.style.display = 'none';
+            overlay.style.display = 'none';
+        });
+
+        // 登入提交
+        function submitLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            alert(`登入成功！\n使用者名稱：${username}\n密碼：${password}`);
+            loginModal.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+
+        // 註冊提交
+        function submitRegister() {
+            const registerUsername = document.getElementById('registerUsername').value;
+            const registerEmail = document.getElementById('registerEmail').value;
+            const registerPassword = document.getElementById('registerPassword').value;
+            alert(`註冊成功！\n使用者名稱：${registerUsername}\n電子郵件：${registerEmail}`);
+            registerModal.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+    }
+    {
+        document.getElementById('confirmButton').addEventListener('click', function() {
+        // 獲取輸入框的值
+        var address = document.getElementById('address').value;
+        
+        // 檢查地址是否為空
+        if (address) {
+            // 如果有地址，重定向到 Google 地圖的搜尋結果
+            var googleMapUrl = "https://www.google.com/maps/search/" + encodeURIComponent(address);
+            window.location.href = googleMapUrl;
+        } else {
+            // 如果沒有輸入地址，提示使用者
+            alert('請輸入有效的地址！');
+        }
+    });
+    }
+    {
+        const navbar = document.querySelector('.navbar');
+        let isScrolling = false;
+
+        document.addEventListener('mousemove', (event) => {
+            if (event.clientY <= 60) {
+                // 滑鼠在導覽列範圍內，顯示導覽列
+                navbar.classList.remove('hidden');
+            } else {
+                // 滑鼠離開導覽列，隱藏導覽列
+                if (!isScrolling) {
+                    navbar.classList.add('hidden');
+                }
+            }
+        });
+
+        // 在滾動期間顯示導覽列
+        window.addEventListener('scroll', () => {
+            navbar.classList.remove('hidden');
+            isScrolling = true;
+
+            // 在滾動停止後延遲隱藏
+            clearTimeout(window.scrollTimeout);
+            window.scrollTimeout = setTimeout(() => {
+                isScrolling = false;
+                navbar.classList.add('hidden');
+            }, 3000);
+        });
+    }
+    {
+        const carousel = document.getElementById('carousel');
+        const cards = document.querySelectorAll('.card');
+        const links = document.querySelectorAll('.card-link');
+        const prev = document.getElementById('prev');
+        const next = document.getElementById('next');
+
+        // 初始化位置
+        let cardPositions = ['left', 'center', 'right'];
+
+        function updateCarousel() {
+            cards.forEach((card, index) => {
+                card.className = `card ${cardPositions[index]}`;
+            });
+
+            // 控制链接是否有效
+            links.forEach((link, index) => {
+                if (cardPositions[index] === 'center') {
+                    link.style.pointerEvents = 'auto'; // 允許點擊
+                } else {
+                    link.style.pointerEvents = 'none'; // 禁止點擊
+                }
+            });
+        }
+
+        prev.addEventListener('click', () => {
+            cardPositions = [
+                cardPositions[1], 
+                cardPositions[2], 
+                cardPositions[0]  
+            ];
+            updateCarousel();
+        });
+
+        next.addEventListener('click', () => {
+            cardPositions = [
+                cardPositions[2],
+                cardPositions[0], 
+                cardPositions[1] 
+            ];
+            updateCarousel();
+        });
+
+        // 初始狀態
+        updateCarousel();
+    }
+    {
+        document.addEventListener("DOMContentLoaded", function () {
+            const elements = document.querySelectorAll('.fade-up');
+            const observerOptions = {
+                threshold: 0.5, // 當 50% 的元素可見時觸發
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        // 設置延遲動畫
+                        const delay = index * 200; // 每個元素延遲 200 毫秒
+                        setTimeout(() => {
+                            entry.target.classList.add('show');
+                        }, delay);
+
+                        observer.unobserve(entry.target); // 停止監視該元素
+                    }
+                });
+            }, observerOptions);
+
+            elements.forEach((element) => {
+                observer.observe(element); // 監視每個元素
+            });
+        });
+    }
+    </script>
+    
+</body>
+</html>
